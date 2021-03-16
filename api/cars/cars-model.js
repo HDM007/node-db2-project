@@ -1,11 +1,19 @@
+const db = require("../../data/db-config");
+
+module.exports(getAll, getById, create);
+
 const getAll = () => {
-  // DO YOUR MAGIC
+  return db('cars');
+  //knex syntax, returns a promise; 
+  //this is equivalent to db.select('*').from('users');
 }
 
-const getById = () => {
-  // DO YOUR MAGIC
+const getById = (id) => {
+  return db('cars').where('car_id', id).first();
+  //return first result where car id matches;
 }
 
-const create = () => {
-  // DO YOUR MAGIC
-}
+const create = (car) => {
+  db('cars').insert(car);
+  //can I pass a whole object like this? Does it know to destructure?
+};
