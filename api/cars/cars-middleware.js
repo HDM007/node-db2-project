@@ -1,5 +1,6 @@
-const dbConfig = require("../../data/db-config.js");
 const Cars = require("./cars-model.js");
+const db = require('../../data/db-config');
+var vinValidator = require('vin-validator')
 
 const checkCarId = async (req, res, next) => {
   try {
@@ -29,6 +30,13 @@ const checkCarPayload = (req, res, next) => {
 //need to check VIN validator in Slack for this one.
 const checkVinNumberValid = (req, res, next) => {
   // DO YOUR MAGIC
+  const validVin = vinValidator.validate(req.body.vin);
+
+  if (validVin === false) {
+    res.status(400).json({ message: `vin ${req.body.vin} is invalid` });
+  } else {
+    next();
+  }
 }
 
 const checkVinNumberUnique = async (req, res, next) => {
