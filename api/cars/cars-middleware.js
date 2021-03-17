@@ -19,13 +19,16 @@ const checkCarId = async (req, res, next) => {
 }
 
 const checkCarPayload = (req, res, next) => {
-  const {vin, make, model, mileage} = req.body;
-
-  if(!vin || !make || !model || !mileage){
-    res.status(400).json({message: "Either vin, make, model, or mileage is missing. Please check your request body for missing entries."})
-  } else {
-    next();
-  }
+  console.log(req.body)
+  if(!req.body.vin) {
+    res.status(400).json({error: "vin is missing"})
+  } else if(!req.body.make) {
+    res.status(400).json({error: "vehicle make is missing"})
+  } else if(!req.body.model) {
+    res.status(400).json({error: "vehicle model is missing"})
+  } else if(!req.body.mileage) {
+    res.status(400).json({error: "vehicle mileage is missing"})
+  } else next()
 }
 //need to check VIN validator in Slack for this one.
 const checkVinNumberValid = (req, res, next) => {

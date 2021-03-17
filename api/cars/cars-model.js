@@ -12,12 +12,14 @@ const getById = (id) => {
 }
 
 const create = async (car) => {
-  // db('cars').insert(car);
+  return db('cars').insert(car).then(([car_id]) => {
+    return db("cars").where("car_id", car_id)
+  });
   //can I pass a whole object like this? Does it know to destructure?
 
-  const trimmed = {...car, make: car.make.trim(), model: car.model.trim()};
-  const newCar = await db('cars').insert(trimmed);
-  return await getById(newCar);
+  // const trimmed = {...car, make: car.make.trim(), model: car.model.trim()};
+  // const newCar = await db('cars').insert(trimmed);
+  // return await getById(newCar);
 
 
 };
