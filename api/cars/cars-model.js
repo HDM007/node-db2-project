@@ -1,7 +1,5 @@
 const db = require("../../data/db-config");
 
-module.exports(getAll, getById, create);
-
 const getAll = () => {
   return db('cars');
   //knex syntax, returns a promise; 
@@ -13,7 +11,15 @@ const getById = (id) => {
   //return first result where car id matches;
 }
 
-const create = (car) => {
-  db('cars').insert(car);
+const create = async (car) => {
+  // db('cars').insert(car);
   //can I pass a whole object like this? Does it know to destructure?
+
+  const trimmed = {...car, make: car.make.trim(), model: car.model.trim()};
+  const newCar = await db('cars').insert(trimmed);
+  return await getById(newCar);
+
+
 };
+
+module.exports = {getAll, getById, create};
